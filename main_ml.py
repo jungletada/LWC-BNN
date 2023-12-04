@@ -1,6 +1,6 @@
 # import some basic libraries
+import numpy as np
 import matplotlib.pyplot as plt
-
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
@@ -38,10 +38,11 @@ def main_run(X_train,X_val,y_train,y_val):
         
         pipe.fit(X_train, y_train)
         y_pred = pipe.predict(X_val)
+            
         y_val, y_pred = de_normalize(y_val, y_pred)
         y_val, y_pred = clip(y_val), clip(y_pred)
         
-        visualize_prediction(y_val, y_pred, img_path=f"results/{name}/", type="standard", interval=1)
+        visualize_prediction(y_val, y_pred, img_path=f"results/{name}/", interval=1)
         mse, mae, r2, evs = eval_all(y_val, y_pred, save_file=f"results/{name}/{name}.log")
         print(f"------------- processing finished. -------------")
         mses.append(mse)

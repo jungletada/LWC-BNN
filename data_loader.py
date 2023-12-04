@@ -171,31 +171,6 @@ class RadarDataset(Dataset):
         return input_list, label_list
 
 
-
-# def create_dataset():
-#     from data_loader import RadarDataset
-#     from data_configs import train_date_selection, test_date_selection
-#     # Define train data
-#     train_dataset = RadarDataset(
-#         dates=train_date_selection,
-#         filter_h=False)
-#     X_train, y_train = train_dataset.get_data_list()
-    
-#     # Define test data
-#     test_dataset = RadarDataset(
-#         dates=test_date_selection,
-#         filter_h=True)
-#     X_val, y_val = test_dataset.get_data_list()
-    
-#     num_train, dim, heights = X_train.shape
-#     X_train = X_train.transpose(0, 2, 1).reshape((-1, dim))
-#     X_val = X_val.transpose(0, 2, 1).reshape((-1, dim))
-#     y_train = y_train.reshape((-1), 1)
-#     y_val = y_val.reshape((-1), 1)
-#     print(f"X_train: {X_train.shape}, y_train:{y_train.shape}\nX_val:{X_val.shape}, y_val:{y_val.shape}")
-#     return X_train, X_val, y_train, y_val
-
-
 def create_dataset(to_tensor=False):
     from data_loader import RadarDataset
     from data_configs import train_date_selection, test_date_selection
@@ -219,8 +194,8 @@ def create_dataset(to_tensor=False):
     y_train = y_train.reshape((-1))
     y_val = y_val.reshape((-1))
     
-    num_test, dim, num_heights = X_val.shape
-    print(f"{num_test} data for testing, with {num_heights} heights.")
+    num_test, num_heights = X_val.shape
+    print(f"{num_test} data for testing")
     print(f"X_train: {X_train.shape}, y_train:{y_train.shape}\nX_val:{X_val.shape}, y_val:{y_val.shape}")
     
     if to_tensor:
@@ -242,7 +217,7 @@ def get_heights(scale_back=True):
 def get_input_dim():
     testset = RadarDataset(test_date_selection,filter_h=True)
     return testset.num_timestamps, testset.num_heights
-    
+      
     
 if __name__ == '__main__':
     trainset = RadarDataset(
@@ -264,4 +239,5 @@ if __name__ == '__main__':
     h = get_heights()
     print(f"Using heights of {h}.")
     print(get_input_dim())
+    create_extend_data()
     
