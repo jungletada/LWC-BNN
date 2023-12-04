@@ -141,7 +141,11 @@ class RadarDataset(Dataset):
         time_range = np.linspace(0, 1, 24)
         interpolate_func = interp1d(time_range, self.time, kind='linear')
         self.inter_time = interpolate_func(height_range)
-      
+        
+        self.input_list, self.label_list = self.get_data_list()
+        self.input_list = self.input_list.transpose(0, 2, 1).reshape((-1, self.num_inputs))
+        self.label_list = self.label_list.reshape(-1, 1)
+        
     def __len__(self):
         """
         Return the total number of samples in the dataset.
@@ -149,40 +153,37 @@ class RadarDataset(Dataset):
         return self.total_len
 
     def __getitem__(self, idx):
-        input_list, label_list = self.get_data_list()
-        input_data = input_list[idx]
-        label = label_list[idx]
+        input_data = self.input_list[idx]
+        label = self.label_list[idx]
         
         if self.to_tensor:
             return  torch.tensor(input_data, dtype=torch.float32), \
                     torch.tensor(label, dtype=torch.float32), 
         return input_data, label
         
-
     def get_data_list(self):
         height = np.expand_dims(self.heights, axis=0)
         height = np.tile(height, (self.num_timestamps, 1))
         input_list = np.stack((
             height, self.k, self.w, self.diff, self.p, self.t, self.h), axis=1)
         label_list = self.lwc
-        if self.to_tensor:
-            return  torch.tensor(input_list, dtype=torch.float32), \
-                    torch.tensor(label_list, dtype=torch.float32), 
         return input_list, label_list
 
 
 def create_dataset(to_tensor=False):
     from data_loader import RadarDataset
     from data_configs import train_date_selection, test_date_selection
-    # Define train data
-    train_dataset = RadarDataset(
+    
+    train_dataset = RadarDataset(# Define train data
         dates=train_date_selection,
-        filter_h=False)
+        filter_h=False,
+        to_tensor=to_tensor)
     X_train, y_train = train_dataset.get_data_list()
-    # Define test data
-    test_dataset = RadarDataset(
+    
+    test_dataset = RadarDataset(# Define test data
         dates=test_date_selection,
-        filter_h=True)
+        filter_h=True,
+        to_tensor=to_tensor)
     X_val, y_val = test_dataset.get_data_list()
     
     num_train, dim, num_heights = X_train.shape
@@ -232,12 +233,6 @@ if __name__ == '__main__':
     print(f"#Train data: {len(trainset)}")
     print(f"#Test data: {len(testset)}")
     
-    input_list, label_list = trainset.get_data_list()
+    input_list, label_list = trainset.input_list, trainset.label_list
     print(f"Shape of input_list: {input_list.shape}")
     print(f"Shape of label_list: {label_list.shape}")
-    
-    h = get_heights()
-    print(f"Using heights of {h}.")
-    print(get_input_dim())
-    create_extend_data()
-    

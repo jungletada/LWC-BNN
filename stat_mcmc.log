@@ -12,5 +12,10 @@ Mean Absolute Error: 0.00934
 R-squared Score: 0.48977
 Explained Variance score Score: 0.51748
 
-
+num_samples=250
+BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=6.)
+Mean Squared Error: 0.00017
+Mean Absolute Error: 0.00791
+R-squared Score: 0.57092
+Explained Variance score Score: 0.58142
 

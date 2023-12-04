@@ -8,7 +8,7 @@ from xgboost import XGBRegressor
 from sklearn.tree import DecisionTreeRegressor
 
 from data_loader import create_dataset
-from utils_read import data_mkdir, de_normalize
+from utils_read import de_normalize
 from evaluate import clip, eval_all
 from visualize import visualize_prediction
 import warnings
@@ -25,11 +25,8 @@ def main_run(X_train,X_val,y_train,y_val):
             ("decision tree", DecisionTreeRegressor())]
 
     # Metrics
-    maes = []
-    mses = []
-    r2_scores = []
-    ev_scores = []
     names = []
+    maes, mses, r2_scores, ev_scores= [], [], [], []
 
     for (name, model) in models:
         print(f"------------- processing model {name}. -------------")
@@ -68,7 +65,7 @@ def plot(mses, maes, r2_scores, ev_scores, names):
         plt.text(names[i], ev_scores[i], "{:.2f}".format(ev_scores[i]), ha='right', va='bottom')
         
     plt.legend()
-    plt.savefig("results_ML.png")
+    plt.savefig("results/ML-methods.png")
     
 
 if __name__ == '__main__':

@@ -1,13 +1,12 @@
-python run_bnn.py \
-    --model-type U-Net  \
-    --posterior-method SVI \
-    --batch_size 64 \
-    --num_samples 50 \
-    --num_epochs 10000 \
-    --return_height True \
+# baysian neural network based MLP
+python main_bnn.py \
+    --model-type mlp  \
+    --method mcmc \
+    --lr 0.01 \
+    --mcmc_samples 250 \
 
-# python run_bnn.py \
-#     --model-type U-Net  \
-#     --posterior-method MCMC \
-#     --num_samples 50 \
-#     --return_height True \
+# Basic machine learning methods
+python main_ml.py
+
+# Deep learning based MLP
+python main_dnn.py \

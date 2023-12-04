@@ -9,7 +9,7 @@ from utils_read import data_mkdir, de_normalize
 from tqdm.auto import trange
 from evaluate import eval_all
 from models.bnn_models import BNN
-from data_loader import create_dataset, create_extend_data
+from data_loader import create_dataset
 
 mcmc_mlp_path='results/mcmc-mlp'
 data_mkdir(mcmc_mlp_path)
@@ -45,6 +45,7 @@ def svi(model, X_train, y_train, X_test, args):
 
 def mcmc(model, X_train, y_train, X_test, args):
     from pyro.infer import MCMC, NUTS
+    pyro.clear_param_store()
     nuts_kernel = NUTS(model, jit_compile=True)
     mcmc = MCMC(nuts_kernel, num_samples=args.mcmc_samples)
     mcmc.run(X_train, y_train)
@@ -53,15 +54,15 @@ def mcmc(model, X_train, y_train, X_test, args):
     preds = predictive(X_test)
     preds_npy = preds['obs'].T.cpu().detach().numpy()
     np.save(f'{mcmc_mlp_path}/mcmc_pred.npy', preds_npy)
-    return preds_npy    
+    return preds_npy  
     
     
 def get_args_parse():
     parser = argparse.ArgumentParser(description="Liquid Water Content Prediction")
     parser.add_argument('--model-type', type=str, default="mlp", help='Model type')
     parser.add_argument('--method', type=str, default="mcmc", help="Posterior method: MCMC or SVI")
-    parser.add_argument('--lr', type=float, default=0.01, help="batch size for SVI")
-    parser.add_argument('--mcmc_samples', type=int, default=200, help="num samples of MCMC")
+    parser.add_argument('--lr', type=float, default=0.01, help="learning rate for SVI")
+    parser.add_argument('--mcmc_samples', type=int, default=250, help="num samples of MCMC")
     parser.add_argument('--num_epochs', type=int, default=1000, help="num epochs of SVI")
     
     args = parser.parse_args()
@@ -82,16 +83,16 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = create_dataset(to_tensor=True)
     X_train, X_test, y_train = X_train.to(args.device), X_test.to(args.device), y_train.to(args.device), 
     
-    model = BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=5.)
+    model = BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=6.)
     model.to(args.device)
     
     if args.method == "svi":
-        preds_npy = svi(model, X_train, y_train, X_test, num_epochs=25000, lr=0.01)
+        preds_npy = svi(model, X_train, y_train, X_test, args=args)
         # preds_npy = np.load(f'{svi_mlp_path}/svi_pred.npy')
         save_file=f"{svi_mlp_path}/svi_mlp.log"
         img_path = svi_mlp_path
     else:
-        preds_npy = mcmc(model, X_train, y_train, X_test, num_samples=250)
+        preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
         # preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
         save_file=f"{mcmc_mlp_path}/mcmc_mlp.log"
         img_path = mcmc_mlp_path
