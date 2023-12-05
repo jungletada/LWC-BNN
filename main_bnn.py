@@ -89,13 +89,13 @@ if __name__ == '__main__':
     if args.method == "svi":
         preds_npy = svi(model, X_train, y_train, X_test, args=args)
         # preds_npy = np.load(f'{svi_mlp_path}/svi_pred.npy')
-        save_file=f"{svi_mlp_path}/svi_mlp.log"
+        save_file=f"{svi_mlp_path}/svi-mlp.log"
         img_path = svi_mlp_path
     else:
         preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
         # preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
         
-        save_file=f"{mcmc_mlp_path}/mcmc_mlp.log"
+        save_file=f"{mcmc_mlp_path}/mcmc-mlp.log"
         img_path = mcmc_mlp_path
         
     y_test, y_pred = de_normalize(y_test,  preds_npy)

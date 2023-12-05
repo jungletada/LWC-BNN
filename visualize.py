@@ -109,6 +109,7 @@ def save_pred_csv(npy_data, save_path):
         npy_data_df.to_csv(save_path, index=False)
         idx = (idx+num_times) * num_h
 
+
 def plot_ground_truth_vs_prediction(height, ground_truth_data, prediction_data):
     """
     Plots the ground truth vs predictions for a specified height.
@@ -142,9 +143,56 @@ def plot_ground_truth_vs_prediction(height, ground_truth_data, prediction_data):
     plt.savefig(f"figures/random-forest-{height}.png")
     plt.close()
 
+
+
+def save_to_excel():
+    
+    def get_results(string):
+        import re
+        # 使用正则表达式匹配浮点数
+        match = re.search(r'\d+\.\d+', string)
+        if match:
+            # 将匹配的字符串转换为浮点数
+            number = float(match.group())
+            return number
+        else:
+            print("No floating point number found.")
+
+    # Data to be included in the Excel file
+    names = ["mcmc-mlp", "random-forest", "linear-regression", "decision-tree", "xgboost"]
+    mse, mae, rs, evs = [], [], [], []
+    for name in names:
+        log_path = f"results/{name}/{name}.log"
+        with open (log_path, "r") as f:
+            lines = f.readlines()
+            mse.append(get_results(lines[0]))
+            mae.append(get_results(lines[1]))
+            rs.append(get_results(lines[2]))
+            evs.append(get_results(lines[3]))
+                
+    data = {
+        "Model": names,
+        "Mean Squared Error": mse,
+        "Mean Absolute Error": mae,
+        "R-squared Score": rs,
+        "Explained Variance Score": evs,
+    }
+
+    # Creating a DataFrame from the data
+    df = pd.DataFrame(data)
+    # Setting the 'Model' column as the index
+    df.set_index("Model", inplace=True)
+    print(df)
+    # Save the DataFrame to an Excel file
+    excel_file_path = 'results/model_evaluation.xlsx'
+    df.to_excel(excel_file_path)
+    excel_file_path
+
+
 if __name__ == '__main__':
-    for _, date_ in enumerate(test_date_selection):
-        csv_data  = pd.read_csv(f"{data_path}/lwc/{date_}_lwc.csv")
-        pred_data = pd.read_csv("results/random-forest/random-forest_pred.csv")
-        for height in csv_data["Height"]:
-            plot_ground_truth_vs_prediction(height, csv_data, pred_data)
+    # for _, date_ in enumerate(test_date_selection):
+    #     csv_data  = pd.read_csv(f"{data_path}/lwc/{date_}_lwc.csv")
+    #     pred_data = pd.read_csv("results/random-forest/random-forest_pred.csv")
+    #     for height in csv_data["Height"]:
+    #         plot_ground_truth_vs_prediction(height, csv_data, pred_data)
+    save_to_excel()
