@@ -108,4 +108,5 @@ if __name__ == '__main__':
     visualize_prediction(
         y_test, y_mean, y_pred_std=y_std, 
         img_path=img_path, interval=1)
+    
     save_pred_csv(npy_data=y_mean, save_path=f"{mcmc_mlp_path}/mcmc_pred.csv")

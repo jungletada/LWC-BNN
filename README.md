@@ -24,27 +24,16 @@
 
 ## 目前最佳
 ### MCMC-MLP
+
 - num_samples=250  
-- BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=6.)  
-- Mean Squared Error: 0.00017  
-- Mean Absolute Error: 0.00791  
-- R-squared Score: 0.57092  
-- Explained Variance score Score: 0.58142  
+- BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=5.)  
+Mean Squared Error: 0.00003
+Mean Absolute Error: 0.00358
+R-squared Score: 0.88981
+Explained Variance Score: 0.89109
 
 ### Random Forest
-- Mean Squared Error: 0.00021
-- Mean Absolute Error: 0.00778
-- R-squared Score: 0.47016
-- Explained Variance score Score: 0.55913
-
-### SVI-MLP（已炸）
-- Mean Squared Error: 0.01312
-- Mean Absolute Error: 0.11257
-- R-squared Score: -31.39345
-- Explained Variance score Score: -0.10307
-
-### DNN-MLP （已炸）
-- Mean Squared Error: 0.00059
-- Mean Absolute Error: 0.01376
-- R-squared Score: -0.46749
-- Explained Variance score Score: 0.00000
+Mean Squared Error: 0.00005
+Mean Absolute Error: 0.00344
+R-squared Score: 0.82427
+Explained Variance Score: 0.82718

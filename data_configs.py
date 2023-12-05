@@ -1,12 +1,6 @@
 data_path = 'data-slim/'
 stat_save_path = 'data-slim/statistics/'
 
-dates_selection = [
-    "20121022",
-    "20121024",
-    "20130514",
-    "20130515",
-]
 
 # dates_selection = [
 #     "20121017",
@@ -30,16 +24,17 @@ dates_selection = [
 #     "20130515",
 # ]
 
-all_dates = dates_selection
 
-length_dates = len(all_dates)
-split_idx = int(length_dates * 0.9)
+train_date_selection =  [
+    "20121022",
+    "20121024",
+    "20130514",
+]
 
-train_date_selection = all_dates[:-1]
-test_date_selection = all_dates[-1:]
+test_date_selection = [
+    "20130515",
+]
 
-print(f"Total number of dates: {length_dates}")
-print(f"Total train dates: {split_idx}")
-print(f"Total test dates: {length_dates - split_idx}")
+
 print(f"Trainset: {train_date_selection}")
 print(f"Testset: {test_date_selection}")
