@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 
 from pyro.infer import Predictive
-from visualize import visualize_prediction
+from visualize import visualize_prediction, save_pred_csv
 from utils_read import data_mkdir, de_normalize
 from tqdm.auto import trange
 from evaluate import eval_all
@@ -75,15 +75,15 @@ if __name__ == '__main__':
     print(f"Use CUDA: {use_cuda}")
     
     if use_cuda:
-        torch.set_default_device('cuda')
-        args.device = 'cuda:0'
+        torch.set_default_device('cuda:1')
+        args.device = 'cuda:1'
     else:
         args.device = 'cpu'
         
     X_train, X_test, y_train, y_test = create_dataset(to_tensor=True)
     X_train, X_test, y_train = X_train.to(args.device), X_test.to(args.device), y_train.to(args.device), 
     
-    model = BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=6.)
+    model = BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=5.)
     model.to(args.device)
     
     if args.method == "svi":
@@ -94,6 +94,7 @@ if __name__ == '__main__':
     else:
         preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
         # preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
+        
         save_file=f"{mcmc_mlp_path}/mcmc_mlp.log"
         img_path = mcmc_mlp_path
         
@@ -107,3 +108,4 @@ if __name__ == '__main__':
     visualize_prediction(
         y_test, y_mean, y_pred_std=y_std, 
         img_path=img_path, interval=1)
+    save_pred_csv(npy_data=y_mean, save_path=f"{mcmc_mlp_path}/mcmc_pred.csv")

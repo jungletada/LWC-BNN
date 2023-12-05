@@ -17,7 +17,7 @@ def eval_all(y_true, y_pred, save_file=None):
         "Mean Squared Error: %.5f" % mse,
         "Mean Absolute Error: %.5f" % mae,
         "R-squared Score: %.5f" % r2,
-        "Explained Variance score Score: %.5f" % evs,
+        "Explained Variance Score: %.5f" % evs,
     ]
     for i in res:
         print(i)

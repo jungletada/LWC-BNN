@@ -109,6 +109,7 @@ class RadarDataset(Dataset):
 
             except Exception as e:
                 print(f"Could not load data for date {date}: {str(e)}")
+            print(f"| {date} | {len(lwc_df.columns) - 1} |")
 
         # Concatenate all the data and labels into single tensors
         self.k = np.concatenate(self.k, axis=1).transpose(1, 0)

@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeRegressor
 from data_loader import create_dataset
 from utils_read import de_normalize
 from evaluate import clip, eval_all
-from visualize import visualize_prediction
+from visualize import visualize_prediction, save_pred_csv
 import warnings
 # Ignore all warnings
 warnings.filterwarnings("ignore")
@@ -19,10 +19,10 @@ warnings.filterwarnings("ignore")
 def main_run(X_train,X_val,y_train,y_val):
     # Find Which Model Perform better 
     models = [
-            ("random forest", RandomForestRegressor()),
-            ("linear regression", LinearRegression()),
+            ("random-forest", RandomForestRegressor()),
+            ("linear-regression", LinearRegression()),
             ("xgboost", XGBRegressor()),
-            ("decision tree", DecisionTreeRegressor())]
+            ("decision-tree", DecisionTreeRegressor())]
 
     # Metrics
     names = []
@@ -37,10 +37,12 @@ def main_run(X_train,X_val,y_train,y_val):
         y_pred = pipe.predict(X_val)
             
         y_val, y_pred = de_normalize(y_val, y_pred)
-        y_val, y_pred = clip(y_val), clip(y_pred)
+        y_pred = clip(y_pred)
         
         visualize_prediction(y_val, y_pred, img_path=f"results/{name}/", interval=1)
         mse, mae, r2, evs = eval_all(y_val, y_pred, save_file=f"results/{name}/{name}.log")
+        np.save(f"results/{name}/{name}_pred.npy", y_pred)
+        save_pred_csv(y_pred, save_path=f"results/{name}/{name}_pred.csv")
         print(f"------------- processing finished. -------------")
         mses.append(mse)
         maes.append(mae)

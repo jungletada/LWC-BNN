@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from data_loader import RadarDataset, get_heights, get_input_dim
 from data_configs import test_date_selection
 from utils_read import data_mkdir
+from data_configs import data_path
 
 
 def plot_predictions(preds, index, img_path, type="mean", title='time'):
@@ -56,8 +57,6 @@ def visualize_prediction(
         y_pred_std=None,
         reshape=True,
         interval=1):
-    
-    from data_configs import data_path
     data_mkdir(img_path)
     heights = get_heights()
     num_timestamps, num_heights = get_input_dim()
@@ -95,3 +94,17 @@ def visualize_prediction(
         plot_predictions(
             preds=preds, img_path=img_path, index=test_idx, 
             type=type_, title=test_times[test_idx])
+        
+
+def save_pred_csv(npy_data, save_path):
+    idx = 0
+    num_h = 41
+    for _, date_ in enumerate(test_date_selection):
+        csv_data  = pd.read_csv(f"{data_path}/lwc/{date_}_lwc.csv")
+        num_times = len(csv_data.columns[1:])
+        d_data = npy_data[idx: (idx+num_times) * num_h]
+        d_data = d_data.reshape(num_h, -1)
+        npy_data_df = pd.DataFrame(d_data, columns=csv_data.columns[1:])
+        npy_data_df.insert(0, 'Height', csv_data['Height'])
+        npy_data_df.to_csv(save_path, index=False)
+        idx = (idx+num_times) * num_h
