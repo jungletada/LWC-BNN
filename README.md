@@ -26,14 +26,14 @@
 ### MCMC-MLP
 
 - num_samples=250  
-- BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=5.)  
-Mean Squared Error: 0.00003
-Mean Absolute Error: 0.00358
-R-squared Score: 0.88981
-Explained Variance Score: 0.89109
+- BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=6.)    
+Mean Squared Error: 0.00003   
+Mean Absolute Error: 0.00320   
+R-squared Score: 0.89864   
+Explained Variance Score: 0.89871   
 
 ### Random Forest
-Mean Squared Error: 0.00005
-Mean Absolute Error: 0.00344
-R-squared Score: 0.82427
-Explained Variance Score: 0.82718
+Mean Squared Error: 0.00005  
+Mean Absolute Error: 0.00344  
+R-squared Score: 0.82427   
+Explained Variance Score: 0.82718  
