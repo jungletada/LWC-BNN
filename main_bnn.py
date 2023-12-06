@@ -62,7 +62,7 @@ def get_args_parse():
     parser.add_argument('--model-type', type=str, default="mlp", help='Model type')
     parser.add_argument('--method', type=str, default="mcmc", help="Posterior method: MCMC or SVI")
     parser.add_argument('--lr', type=float, default=0.01, help="learning rate for SVI")
-    parser.add_argument('--mcmc_samples', type=int, default=250, help="num samples of MCMC")
+    parser.add_argument('--mcmc_samples', type=int, default=260, help="num samples of MCMC")
     parser.add_argument('--num_epochs', type=int, default=1000, help="num epochs of SVI")
     
     args = parser.parse_args()
