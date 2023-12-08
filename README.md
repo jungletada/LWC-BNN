@@ -22,18 +22,12 @@
 ## 结果
 所有结果保存在`results/`.
 
-## 目前最佳
-### MCMC-MLP
-
-- num_samples=250  
-- BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=6.)    
-Mean Squared Error: 0.00003   
-Mean Absolute Error: 0.00320   
-R-squared Score: 0.89864   
-Explained Variance Score: 0.89871   
-
-### Random Forest
-Mean Squared Error: 0.00005  
-Mean Absolute Error: 0.00344  
-R-squared Score: 0.82427   
-Explained Variance Score: 0.82718  
+## 论文专用画图
+20130515的全天LWC预测  
+- MCMC-MLP: results/mcmc-mlp/mcmc_pred.csv
+- Random Forest: results/random-forest/random-forest_pred.csv
+- Linear-regression: results/linear-regression/linear-regression_pred.csv
+- Decision-tree: results/decision-tree/decision-tree_pred.csv
+- Xgboost: results/xgboost/xgboost_pred.csv
+## 评估指标结果保存到excel文件  
+results/model_evaluation.xlsx
