@@ -86,17 +86,11 @@ if __name__ == '__main__':
     model = BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=5.)
     model.to(args.device)
     
-    if args.method == "svi":
-        preds_npy = svi(model, X_train, y_train, X_test, args=args)
-        # preds_npy = np.load(f'{svi_mlp_path}/svi_pred.npy')
-        save_file=f"{svi_mlp_path}/svi-mlp.log"
-        img_path = svi_mlp_path
-    else:
-        preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
-        # preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
-        
-        save_file=f"{mcmc_mlp_path}/mcmc-mlp.log"
-        img_path = mcmc_mlp_path
+    preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
+    # preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
+    
+    save_file=f"{mcmc_mlp_path}/mcmc-mlp.log"
+    img_path = mcmc_mlp_path
         
     y_test, y_pred = de_normalize(y_test,  preds_npy)
     y_mean = y_pred.mean(axis=1)

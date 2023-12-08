@@ -174,7 +174,7 @@ def save_to_excel():
                 
     data = {
         "Model": names,
-        "Mean Squared Error": mse,
+        # "Mean Squared Error": mse,
         "Mean Absolute Error": mae,
         "R-squared Score": rs,
         "Explained Variance Score": evs,
