@@ -10,7 +10,7 @@ from data_configs import data_path
 
 def plot_predictions(preds, index, img_path, type="mean", title='time'):
     plt.xlim([600, 10000])
-    plt.ylim([0.00, 0.07])
+    plt.ylim([0.00, 0.15])
     plt.rcParams['figure.figsize'] = (14.4, 7.2)
     plt.xlabel("Height", fontsize=15)
     plt.ylabel("Liquid Water Content", fontsize=15)
@@ -22,13 +22,12 @@ def plot_predictions(preds, index, img_path, type="mean", title='time'):
         y_pred = preds['pred_lwc_mean'][index]
         y_std = preds['pred_lwc_std'][index]
         y_bottom = y_pred - y_std
-        y_bottom[y_bottom < 0] = 0
+        y_bottom[y_bottom < 0] = 0.0
         plt.fill_between(x, y_bottom, y_pred + y_std, 
                          alpha=0.5, color='#9ac9db', zorder=5)
     else:
         y_pred = preds["pred_lwc"][index]
 
-    
     plt.plot(x, y_pred, '*-', markersize=6, linewidth=3, 
              color="#2878b5", label="Prediction")
     plt.plot(x, y_label, 'o--', markersize=3, linewidth=3, 

@@ -42,6 +42,7 @@ def main_run(X_train,X_val,y_train,y_val):
         # visualize_prediction(y_val, y_pred, img_path=f"results/{name}/", interval=1)
         mse, mae, r2, evs = eval_all(y_val, y_pred, save_file=f"results/{name}/{name}.log")
         np.save(f"results/{name}/{name}_pred.npy", y_pred)
+        # y_pred = np.load(f"results/{name}/{name}_pred.npy")
         y_pred = y_pred.reshape(-1, 41)
         save_pred_csv(y_pred.transpose(1, 0), save_path=f"results/{name}/{name}_pred.csv")
         print(f"------------- processing finished. -------------")
