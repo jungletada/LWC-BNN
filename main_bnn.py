@@ -105,8 +105,8 @@ if __name__ == '__main__':
     #  y_mean[:, :4] = 0.0
     y_mean[:, -13:] = 0.0
     
-    # visualize_prediction(
-    #     y_test, y_mean, y_pred_std=y_std, reshape=False,
-    #     img_path=img_path, interval=1)
+    visualize_prediction(
+        y_test, y_mean, y_pred_std=y_std, reshape=False,
+        img_path=img_path, interval=1)
     
     save_pred_csv(npy_data=y_mean.transpose(1, 0), save_path=f"{mcmc_mlp_path}/mcmc_pred.csv")
