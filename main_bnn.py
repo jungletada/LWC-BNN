@@ -10,6 +10,8 @@ from tqdm.auto import trange
 from evaluate import eval_all
 from models.bnn_models import BNN
 from data_loader import create_dataset
+from data_loader import RadarDataset, get_heights, get_input_dim
+
 
 mcmc_mlp_path='results/mcmc-mlp'
 data_mkdir(mcmc_mlp_path)
@@ -97,10 +99,16 @@ if __name__ == '__main__':
     y_mean[y_mean < 0] = 0
     y_std = y_pred.std(axis=1)
     
+    num_timestamps, num_heights = get_input_dim()
+    # y_mean = y_mean.reshape((-1, num_heights))
+    # y_test = y_test.reshape((-1, num_heights))
+    # y_mean[:, :7] = 0.0
+    # y_mean[:, -13:] = 0.0
+
     eval_all(y_test, y_mean, save_file=save_file)
     
     visualize_prediction(
-        y_test, y_mean, y_pred_std=y_std, 
+        y_test, y_mean, y_pred_std=y_std, reshape=False,
         img_path=img_path, interval=1)
     
-    save_pred_csv(npy_data=y_mean, save_path=f"{mcmc_mlp_path}/mcmc_pred.csv")
+    save_pred_csv(npy_data=y_mean.transpose(1, 0), save_path=f"{mcmc_mlp_path}/mcmc_pred.csv")

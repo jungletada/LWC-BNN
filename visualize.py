@@ -31,7 +31,7 @@ def plot_predictions(preds, index, img_path, type="mean", title='time'):
     
     plt.plot(x, y_pred, '*-', markersize=6, linewidth=3, 
              color="#2878b5", label="Prediction")
-    plt.plot(x, y_label, 'o-', markersize=3, linewidth=3, 
+    plt.plot(x, y_label, 'o--', markersize=3, linewidth=3, 
                 color="#c82423", label="Micro-wave Radiometer")
     plt.legend(fontsize=10, frameon=False, loc='upper right')
     plt.title(title, fontsize=15)
@@ -68,7 +68,6 @@ def visualize_prediction(
         if reshape: # reshape back to [num_timestamps, num_heights]
             y_pred = y_pred.reshape((num_timestamps, num_heights))
             y_test = y_test.reshape((num_timestamps, num_heights))
-            
         preds = {'height': heights,
                 'test_lwc': y_test,
                 'pred_lwc_mean': y_pred,
@@ -99,17 +98,11 @@ def visualize_prediction(
         
 
 def save_pred_csv(npy_data, save_path):
-    idx = 0
-    num_h = 41
     for _, date_ in enumerate(test_date_selection):
         csv_data  = pd.read_csv(f"{data_path}/lwc/{date_}_lwc.csv")
-        num_times = len(csv_data.columns[1:])
-        d_data = npy_data[idx: (idx+num_times) * num_h]
-        d_data = d_data.reshape(num_h, -1)
-        npy_data_df = pd.DataFrame(d_data, columns=csv_data.columns[1:])
+        npy_data_df = pd.DataFrame(npy_data, columns=csv_data.columns[1:])
         npy_data_df.insert(0, 'Height', csv_data['Height'])
         npy_data_df.to_csv(save_path, index=False)
-        idx = (idx+num_times) * num_h
 
 
 def plot_ground_truth_vs_prediction(height, ground_truth_data, prediction_data):
