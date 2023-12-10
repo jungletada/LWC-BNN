@@ -98,6 +98,7 @@ if __name__ == '__main__':
     y_mean = y_pred.mean(axis=1)
     y_mean[y_mean < 0] = 0
     y_std = y_pred.std(axis=1)
+    
     eval_all(y_test, y_mean, save_file=save_file)
     num_timestamps, num_heights = get_input_dim()
     
@@ -106,9 +107,9 @@ if __name__ == '__main__':
     y_std = y_std.reshape((-1, num_heights))
     y_mean[:, -10:] = 0.0
     
-    # visualize_prediction(
-    #     y_test, y_mean, y_pred_std=y_std, reshape=False,
-    #     img_path=img_path, interval=1)
+    visualize_prediction(
+        y_test, y_mean, y_pred_std=y_std, reshape=False,
+        img_path=img_path, interval=1)
     
-    save_pred_csv(npy_data=y_mean.transpose(1, 0), save_path=f"{mcmc_mlp_path}/mcmc-mlp_mean.csv")
-    save_pred_csv(npy_data=y_std.transpose(1, 0), save_path=f"{mcmc_mlp_path}/mcmc-mlp_std.csv")
+    # save_pred_csv(npy_data=y_mean.transpose(1, 0), save_path=f"{mcmc_mlp_path}/mcmc-mlp_mean.csv")
+    # save_pred_csv(npy_data=y_std.transpose(1, 0), save_path=f"{mcmc_mlp_path}/mcmc-mlp_std.csv")

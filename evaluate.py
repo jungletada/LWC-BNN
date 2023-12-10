@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # models = ['mcmc-mlp']
     for model in models:
         print(f"{model}:")
-        pred_df = pd.read_csv(f"results/{model}/{model}.csv")
+        pred_df = pd.read_csv(f"results/{model}/{model}_pred.csv")
         # pred_df = pd.read_csv("results/mcmc-mlp/mcmc-mlp_std.csv")
         label_df = pd.read_csv("data-slim/lwc/20130515_lwc.csv")
         
@@ -72,4 +72,4 @@ if __name__ == '__main__':
         label_filter = clip_time(label_df, save_to=None).to_numpy()
         label_filter = label_filter.reshape(-1)
         
-        # eval_all(label_filter, pred_filter, save_file=f'paper_results/{model}.log')
+        eval_all(label_filter, pred_filter, save_file=f'paper_results/{model}.log')
