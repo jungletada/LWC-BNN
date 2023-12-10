@@ -58,7 +58,7 @@ def clip_time(df, save_to):
     return filtered_data
 
 if __name__ == '__main__':
-    models = ['decision-tree', 'linear-regression', 'mcmc-mlp', 'xgboost']
+    models = ['decision-tree', 'linear-regression', 'random-forest', 'mcmc-mlp', 'xgboost']
     # models = ['mcmc-mlp']
     for model in models:
         print(f"{model}:")
