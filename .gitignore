@@ -1,6 +1,7 @@
 __pycache__
 .DS_Store
 figures/
+results/
 data-avg/
 data-ft/
 data-slim/

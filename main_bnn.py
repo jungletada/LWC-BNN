@@ -64,7 +64,7 @@ def get_args_parse():
     parser.add_argument('--model-type', type=str, default="mlp", help='Model type')
     parser.add_argument('--method', type=str, default="mcmc", help="Posterior method: MCMC or SVI")
     parser.add_argument('--lr', type=float, default=0.01, help="learning rate for SVI")
-    parser.add_argument('--mcmc_samples', type=int, default=260, help="num samples of MCMC")
+    parser.add_argument('--mcmc_samples', type=int, default=250, help="num samples of MCMC")
     parser.add_argument('--num_epochs', type=int, default=1000, help="num epochs of SVI")
     
     args = parser.parse_args()
@@ -88,8 +88,8 @@ if __name__ == '__main__':
     model = BNN(in_dim=7, out_dim=1, hid_dim=96, n_hid_layers=2, prior_scale=5.)
     model.to(args.device)
     
-    # preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
-    preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
+    preds_npy = mcmc(model, X_train, y_train, X_test, args=args)
+    # preds_npy = np.load(f'{mcmc_mlp_path}/mcmc_pred.npy')
     
     save_file=f"{mcmc_mlp_path}/mcmc-mlp.log"
     img_path = mcmc_mlp_path
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     y_mean = y_mean.reshape((-1, num_heights))
     y_test = y_test.reshape((-1, num_heights))
     #  y_mean[:, :4] = 0.0
-    y_mean[:, -13:] = 0.0
+    y_mean[:, -10:] = 0.0
     
     visualize_prediction(
         y_test, y_mean, y_pred_std=y_std, reshape=False,
