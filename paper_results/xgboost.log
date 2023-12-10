@@ -1,4 +1,4 @@
-Mean Squared Error: 0.00018
-Mean Absolute Error: 0.00814
-R-squared Score: 0.59295
-Explained Variance Score: 0.62229
+paper_results/xgboost.log
+Mean Absolute Error: 0.00805
+R-squared Score: 0.59517
+Explained Variance Score: 0.62245

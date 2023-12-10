@@ -1,4 +1,4 @@
-Mean Squared Error: 0.00039
-Mean Absolute Error: 0.01494
-R-squared Score: 0.11772
-Explained Variance Score: 0.11772
+paper_results/linear-regression.log
+Mean Absolute Error: 0.01463
+R-squared Score: 0.13173
+Explained Variance Score: 0.13194

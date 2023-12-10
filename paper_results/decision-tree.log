@@ -1,4 +1,4 @@
-Mean Squared Error: 0.00031
-Mean Absolute Error: 0.00964
-R-squared Score: 0.31051
-Explained Variance Score: 0.31329
+paper_results/decision-tree.log
+Mean Absolute Error: 0.00925
+R-squared Score: 0.34433
+Explained Variance Score: 0.34665

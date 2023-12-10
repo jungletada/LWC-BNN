@@ -1,4 +1,4 @@
-Mean Squared Error: 0.00004
-Mean Absolute Error: 0.00323
-R-squared Score: 0.91021
-Explained Variance Score: 0.91028
+paper_results/mcmc-mlp.log
+Mean Absolute Error: 0.00358
+R-squared Score: 0.89742
+Explained Variance Score: 0.89744
