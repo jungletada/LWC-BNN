@@ -53,7 +53,7 @@ def format_timestamp(ts):
     return ts.replace('/', '-').replace(':', '-').replace(' ', '_')
 
 # Set a fixed ylim
-ylim_max = 0.07
+ylim_max = 0.1
 
 # Plot and save comparison images
 for i, timestamp in enumerate(timestamps):
