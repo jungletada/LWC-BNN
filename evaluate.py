@@ -16,7 +16,7 @@ def eval_all(y_true, y_pred, save_file=None):
     r2 = r2_score(y_true, y_pred)
     evs = explained_variance_score(y_true, y_pred)
     res = [
-        "Mean Squared Error: %.5f" % mse,
+        # "Mean Squared Error: %.5f" % mse,
         "Mean Absolute Error: %.5f" % mae,
         "R-squared Score: %.5f" % r2,
         "Explained Variance Score: %.5f" % evs,
@@ -26,6 +26,7 @@ def eval_all(y_true, y_pred, save_file=None):
 
     if save_file is not None:
         with open(save_file, 'w') as f:
+            f.write(save_file+'\n')
             for i in res:
                 f.write(i+'\n')
                 
@@ -38,7 +39,7 @@ def clip_time(df, save_to):
     timestamps = pd.to_datetime(df.columns[1:], format='%Y/%m/%d %H:%M:%S')
 
     # Define the start and end time for filtering
-    start_time = datetime.time(17, 20)
+    start_time = datetime.time(17, 12)
     end_time = datetime.time(20, 20)
 
     # Filter the timestamps that fall between 17:20 and 20:20
@@ -49,7 +50,7 @@ def clip_time(df, save_to):
     if save_to is not None:
         save_columns = ["Height"] + [time.strftime('%Y/%m/%d %H:%M:%S') for time in filtered_timestamps]
         save_df = df[save_columns]
-        save_df.to_csv(save_to)
+        save_df.to_csv(save_to, index=False)
     
     filtered_columns = [time.strftime('%Y/%m/%d %H:%M:%S') for time in filtered_timestamps]
     filtered_data = df[filtered_columns]
@@ -57,14 +58,18 @@ def clip_time(df, save_to):
     return filtered_data
 
 if __name__ == '__main__':
-    model = 'decision-tree'
-    pred_df = pd.read_csv(f"results/{model}/{model}_pred.csv")
-    label_df = pd.read_csv("data-slim/lwc/20130515_lwc.csv")
-    
-    pred_filter = clip_time(pred_df, save_to=f"paper_results/{model}.csv").to_numpy()
-    pred_filter = pred_filter.reshape(-1)
-    
-    label_filter = clip_time(label_df, save_to=None).to_numpy()
-    label_filter = label_filter.reshape(-1)
-    
-    eval_all(label_filter, pred_filter, save_file=f'paper_results/{model}.log')
+    models = ['decision-tree', 'linear-regression', 'mcmc-mlp', 'xgboost']
+    # models = ['mcmc-mlp']
+    for model in models:
+        print(f"{model}:")
+        pred_df = pd.read_csv(f"results/{model}/{model}.csv")
+        # pred_df = pd.read_csv("results/mcmc-mlp/mcmc-mlp_std.csv")
+        label_df = pd.read_csv("data-slim/lwc/20130515_lwc.csv")
+        
+        pred_filter = clip_time(pred_df, save_to=f"paper_results/{model}.csv").to_numpy()
+        pred_filter = pred_filter.reshape(-1)
+        
+        label_filter = clip_time(label_df, save_to=None).to_numpy()
+        label_filter = label_filter.reshape(-1)
+        
+        # eval_all(label_filter, pred_filter, save_file=f'paper_results/{model}.log')

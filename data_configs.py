@@ -26,10 +26,9 @@ stat_save_path = 'data-slim/statistics/'
 
 
 train_date_selection =  [
-    # "20121022",
+    "20121022",
     "20121024",
     "20130514",
-    "20130515",
 ]
 
 test_date_selection = [
