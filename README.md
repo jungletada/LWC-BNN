@@ -1,5 +1,5 @@
-# Bayesian Neural Network for Liquid Water Content Retrieval Using the Differences in Radar Attenuation
-
+# Estimating Liquid Water Content Using Dual-Frequency Radar and Bayesian Neural Networks
+Zheng Wen∗, Dingjie Peng∗, Xun Su∗, Yousuke Ohya∗, Kazuhiko Tamesue∗, Hiroyuki Kasai∗, Wataru Kameyama∗, Takuro Sato∗
 ## Structure of Data
 - main path for all data: `data-slim/` 
 - for experiments `data-slim/{date}/`
@@ -31,3 +31,17 @@
 - Xgboost: results/xgboost/xgboost_pred.csv
 ## 评估指标结果保存到excel文件  
 results/model_evaluation.xlsx
+
+## 日本語の説明
+- 高度600メートル以下のデータをすべて除外しました（600メートル以下にはKaバンドのデータも雲水量もありません）。
+- KaバンドとWバンドのデータを、雲水量（LWC）の高度に基づいて線形補間しました。現在、すべての対応する日付のデータの形状が一致しています（つまり、高度値とタイムスタンプの数が一致しています）。
+
+### 機械学習モデル
+`main_ml.py`というファイルを使って、4つの機械学習モデルが含まれています。
+
+### データセットを構築する方法
+`data_loader.py`の手法にならって、CSVファイルを読み込み、データの入力形状を（#timestamps、#dimension）に変換することです。 
+入力データの構造は（#timestamps、#dimension）であり、出力データの構造は（#timestamps、1）です。その中で1は、対応する時刻のLWC（液体水含有量）の値を表しています。
+
+- #timestamps：タイムスタンプと高度の数
+- #dimension：入力の次元数を表しています。例えば、ka、w、p、t、h、heightが入力される場合、次元数は6になります。
