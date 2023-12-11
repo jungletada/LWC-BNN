@@ -19,7 +19,7 @@ colors_and_styles = {
     "decision-tree": ('Decision Tree', 'grey', '--', 'o', 0.8),  # Circle
     "linear-regression": ('Linear Regression', 'orange', '--', '^', 0.8),  # Triangle
     "xgboost": ('XGBoost', 'green', '--', 'D', 0.8),  # Diamond
-    "mcmc-mlp": ('MCMC-MLP', 'red', '-', None, 1.0)  # No marker for mcmc-mlp, full opacity
+    "mcmc-mlp": ('BNN', 'red', '-', None, 1.0)  # No marker for mcmc-mlp, full opacity
 }
 
 # Function to read and process each file
