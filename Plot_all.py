@@ -16,10 +16,10 @@ os.makedirs(output_folder, exist_ok=True)
 
 # Define colors, line styles, and markers for each method
 colors_and_styles = {
-    "decision-tree": ('grey', '--', 'o', 0.8),  # Circle
-    "linear-regression": ('orange', '--', '^', 0.8),  # Triangle
-    "xgboost": ('green', '--', 'D', 0.8),  # Diamond
-    "mcmc-mlp": ('red', '-', None, 1.0)  # No marker for mcmc-mlp, full opacity
+    "decision-tree": ('Decision Tree', 'grey', '--', 'o', 0.8),  # Circle
+    "linear-regression": ('Linear Regression', 'orange', '--', '^', 0.8),  # Triangle
+    "xgboost": ('XGBoost', 'green', '--', 'D', 0.8),  # Diamond
+    "mcmc-mlp": ('MCMC-MLP', 'red', '-', None, 1.0)  # No marker for mcmc-mlp, full opacity
 }
 
 # Function to read and process each file
@@ -60,12 +60,12 @@ for i, timestamp in enumerate(timestamps):
     formatted_timestamp = format_timestamp(timestamp)
     plt.figure(figsize=(8, 4))  # Smaller figure size
     for method, predictions in all_data.items():
-        color, style, marker, alpha = colors_and_styles[method]
+        label, color, style, marker, alpha = colors_and_styles[method]
         if i < predictions.shape[1]:
-            plt.plot(label_heights, predictions.iloc[:, i], label=method, color=color, linestyle=style, marker=marker, alpha=alpha)
+            plt.plot(label_heights, predictions.iloc[:, i], label=label, color=color, linestyle=style, marker=marker, alpha=alpha)
     # Plot label data (Microwave radiometer) with specific style
     if i < label_data.shape[1]:
-        plt.plot(label_heights, label_data.iloc[:, i], label='Microwave radiometer', color='blue', linestyle='-', linewidth=2)
+        plt.plot(label_heights, label_data.iloc[:, i], label='Microwave Radiometer', color='blue', linestyle='-', linewidth=2)
     # Plot std as transparent range for mcmc-mlp
     if i < std_data.shape[1]:
         plt.fill_between(label_heights, all_data['mcmc-mlp'].iloc[:, i] - std_data.iloc[:, i],
